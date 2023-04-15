@@ -113,9 +113,10 @@ body {
 }
 
 form {
-  width: 100%;
+  width: 90%;
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto;
+  border-radius: 0.525rem;
   padding: 10px;
   background: #40414f;
 
