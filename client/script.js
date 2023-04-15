@@ -10,14 +10,12 @@ function loader(element) {
     element.textContent = ''
 
     loadInterval = setInterval(() => {
-        // Update the text content of the loading indicator
-        element.textContent += '.';
+        element.textContent += '.'
 
-        // If the loading indicator has reached three dots, reset it
         if (element.textContent === '....') {
-            element.textContent = '';
+            element.textContent = ''
         }
-    }, 300);
+    }, 300)
 }
 
 function typeText(element, text) {
@@ -37,11 +35,11 @@ function typeText(element, text) {
 // necessary for typing text effect for that specific reply
 // without unique ID, typing text will work on every element
 function generateUniqueId() {
-    const timestamp = Date.now();
-    const randomNumber = Math.random();
-    const hexadecimalString = randomNumber.toString(16);
+    const timestamp = Date.now()
+    const randomNumber = Math.random()
+    const hexadecimalString = randomNumber.toString(16)
 
-    return `id-${timestamp}-${hexadecimalString}`;
+    return `id-${timestamp}-${hexadecimalString}`
 }
 
 function chatStripe(isAi, value, uniqueId) {
@@ -67,26 +65,21 @@ const handleSubmit = async (e) => {
 
     const data = new FormData(form)
 
-    // user's chatstripe
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
 
-    // to clear the textarea input 
     form.reset()
 
-    // bot's chatstripe
     const uniqueId = generateUniqueId()
     chatContainer.innerHTML += chatStripe(true, " ", uniqueId)
 
-    // to focus scroll to the bottom 
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    chatContainer.scrollTop = chatContainer.scrollHeight
 
-    // specific message div 
     const messageDiv = document.getElementById(uniqueId)
 
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    const response = await fetch('http://localhost:5000/', {
+    const response = await fetch('https://crypto-help-ai.onrender.com/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -100,8 +93,8 @@ const handleSubmit = async (e) => {
     messageDiv.innerHTML = " "
 
     if (response.ok) {
-        const data = await response.json();
-        const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
+        const data = await response.json()
+        const parsedData = data.bot.trim()
 
         typeText(messageDiv, parsedData)
     } else {
